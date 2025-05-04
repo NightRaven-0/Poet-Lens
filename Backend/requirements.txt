@@ -1,0 +1,6 @@
+flask
+flask-cors
+torch
+transformers
+pillow
+torchvision #some models need it ig

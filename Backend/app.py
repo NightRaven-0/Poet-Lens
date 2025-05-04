@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
+from Utils.image_caption import generate_caption
 
 app = Flask(__name__)
 CORS(app)
@@ -20,6 +21,7 @@ def upload_image():
     filepath = os.path.join(UPLOAD_FOLDER, image.filename)
     image.save(filepath)
 
+    caption = generate_caption(filepath)
     return jsonify({'message': 'Image uploaded successfully', 'filename': image.filename}), 200
 
 if __name__ == '__main__':
