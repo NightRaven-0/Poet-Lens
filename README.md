@@ -1,4 +1,4 @@
-# 📸 PoetLens 🎭
+# PoetLens 
 
 > "A picture is worth a thousand words... but like, what if it rhymed?"
 
