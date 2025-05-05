@@ -30,7 +30,8 @@ def upload_image():
     poem = generate_poem(caption)
     return jsonify({'message': 'Image uploaded successfully', 
                     'filename': image.filename, 
-                    'caption': caption}), 200
+                    'caption': caption,
+                    'poem': poem }), 200
 
 if __name__ == '__main__':
     app.run(debug=True)

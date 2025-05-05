@@ -4,7 +4,7 @@ import torch
 
 # Load processor and model once
 processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
-model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base")
+model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base", use_fast=True)
 
 def generate_caption(image_path):
     image = Image.open(image_path).convert('RGB')
