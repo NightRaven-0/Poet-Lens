@@ -8,6 +8,8 @@ load_dotenv()
 # Configure Gemini API (retrieve API key from environment variable)
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 
+#test line
+
 # Select the Gemini model for text generation
 model = genai.GenerativeModel('gemini-pro')
 
