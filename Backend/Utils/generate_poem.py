@@ -1,26 +1,41 @@
-from transformers import pipeline, set_seed
+import google.generativeai as genai
+from dotenv import load_dotenv
+import os
 
-# Load the text generation pipeline once
-text_generator = pipeline("text-generation", model="gpt2-medium")
-set_seed(42)  # Optional: for reproducibility
+# Load environment variables from .env file
+load_dotenv()
 
-def generate_poem(caption):
-    prompt = (
-        f"Write a short, vivid and emotional poem inspired by the scene: \"{caption}\".\n\n"
-        "Poem:\n"
-    )
+# Configure Gemini API (retrieve API key from environment variable)
+genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 
-    response = text_generator(
-        prompt,
-        max_length=120,
-        temperature=0.9,
-        top_k=50,
-        top_p=0.95,
-        repetition_penalty=1.2,
-        do_sample=True,
-        num_return_sequences=1
-    )
+# Select the Gemini model for text generation
+model = genai.GenerativeModel('gemini-pro')
 
-    # Clean output: remove the prompt from result
-    poem = response[0]['generated_text'].replace(prompt, '').strip()
-    return poem
+def generate_poem(image_caption, mood):
+    """
+    Generates a poem based on the image caption and mood using the Gemini API.
+
+    Args:
+        image_caption: A string describing the content of the image.
+        mood: A string representing the desired mood of the poem.
+
+    Returns:
+        A string containing the generated poem, or None if an error occurs.
+    """
+    prompt = f"Please write a short poem about the following image, with a '{mood}' mood:\n\n{image_caption}\n\nPoem:"
+
+    try:
+        response = model.generate_content(prompt)
+        # Gemini returns a response object, the poem is in response.text
+        return response.text
+    except Exception as e:
+        print(f"Error generating poem: {e}")
+        return None
+
+if __name__ == '__main__':
+    # Example usage (for testing)
+    caption = "A lone tree stands on a hill under a starry night."
+    mood = "serene"
+    poem = generate_poem(caption, mood)
+    if poem:
+        print("Generated Poem:\n", poem)
